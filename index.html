@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multi-UPI QR Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 500px; margin: auto; text-align: center; }
+        input, select, button { padding: 10px; width: 100%; margin-top: 10px; box-sizing: border-box; }
+        #qrcode { margin-top: 20px; }
+        img.logo { max-width: 150px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Iconic_image_of_a_sun.png/120px-Iconic_image_of_a_sun.png" class="logo" alt="Business Logo" />
+    <h2>Dynamic UPI QR Generator</h2>
+    <label>Select UPI ID:</label>
+    <select id="upiSelector">
+        <option value="RANDOM">🎲 Random (Auto)</option>
+        <option value="erict@axl">Eric (Main Account)</option>
+        <option value="Fino.9311356916@finobank">Fino Account</option>
+        <option value="dharmendracsb@okicici">Dharmendra ICICI</option>
+        <option value="7603066704@ptyes">PhonePe 7603</option>
+        <option value="rahul012@sbi">Rahul SBI</option>
+        <option value="boin-680305820903@boi">BOI Account</option>
+        <option value="Vikashkumar6517@indus">Vikash Indus</option>
+        <option value="Vikashyadav3990@indus">Vikash Yadav Indus</option>
+        <option value="Viku7788@ikwik">Viku iKwick</option>
+    </select>
+    <label>Amount (INR):</label>
+    <input type="number" id="amount" placeholder="Enter amount" />
+    <label>Order/Note:</label>
+    <input type="text" id="note" placeholder="Enter order note or description" />
+    <button onclick="generateQR()">Generate QR Code</button>
+    <div id="qrcode"></div>
+
+    <script>
+        const allUPIs = [
+            "erict@axl", "Fino.9311356916@finobank", "dharmendracsb@okicici",
+            "7603066704@ptyes", "rahul012@sbi", "boin-680305820903@boi",
+            "Vikashkumar6517@indus", "Vikashyadav3990@indus", "Viku7788@ikwik"
+        ];
+
+        function generateQR() {
+            var selectedUPI = document.getElementById("upiSelector").value;
+            var amount = document.getElementById("amount").value;
+            var note = document.getElementById("note").value;
+
+            if (selectedUPI === "RANDOM") {
+                selectedUPI = allUPIs[Math.floor(Math.random() * allUPIs.length)];
+            }
+
+            var upiURI = 'upi://pay?pa=' + selectedUPI + '&pn=Payment&am=' + amount + '&cu=INR&tn=' + note;
+
+            document.getElementById("qrcode").innerHTML = "";
+            new QRCode(document.getElementById("qrcode"), {
+                text: upiURI,
+                width: 300,
+                height: 300
+            });
+        }
+    </script>
+</body>
+</html>
